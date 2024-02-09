@@ -1,8 +1,8 @@
 import React from 'react';
-import {createStackNavigator} from '@react-navigation/stack';
+import { createStackNavigator } from '@react-navigation/stack';
 import CourseList from '../screen/course/courseList';
 import courseDetails from '../screen/course/courseDetails';
-import {UI_ROUTES} from '../lib/routeConstants';
+import { UI_ROUTES } from '../lib/routeConstants';
 import CategoryWiseCourses from '../screen/categoryWiseCourses';
 import FilterListingCourse from '../screen/filterListingCourse';
 import TopicDetail from '../screen/topics/topicDetail';
@@ -11,12 +11,13 @@ import QuizPlay from '../screen/quiz';
 import QuizSubmitPage from '../screen/quiz/quizSubmitPage';
 import LessionDetail from '../screen/lesson/lessionDetail';
 import QuizStaticticsScreen from '../screen/quiz/quizStaticticsScreen';
+import PreQuestionnaireItems from '../screen/preQuestionnaire';
 
 const Stack = createStackNavigator();
 
 const CoursesStack = () => {
   return (
-    <Stack.Navigator screenOptions={{headerShown: false}}>
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="CourseList" component={CourseList} />
       <Stack.Screen name="CourseDetail" component={courseDetails} />
       <Stack.Screen

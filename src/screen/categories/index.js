@@ -1,24 +1,25 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, {useEffect, useRef, useState} from 'react';
-import {FlatList, View} from 'react-native';
-import {API_URL, REQUEST_METHOD} from '../../api/constants';
+import React, { useEffect, useRef, useState } from 'react';
+import { FlatList, View } from 'react-native';
+import { API_URL, REQUEST_METHOD } from '../../api/constants';
 import Chip from '../../components/Chip';
-import {layoutPadding} from '../../components/Layout/layoutStyle';
+import { layoutPadding } from '../../components/Layout/layoutStyle';
 import Typography from '../../components/Typography';
 import useCRUD from '../../hooks/useCRUD';
-import {GET_CATEGORIES_LIST} from '../../store/types';
+import { GET_CATEGORIES_LIST } from '../../store/types';
 import palette from '../../theme/palette';
 import CategorySkeleton from './categorySkeleton';
+import { scale, verticalScale } from '../../lib/utils';
 
-const numberOfSkeleton = Array(10).fill({id: 1});
+const numberOfSkeleton = Array(10).fill({ id: 1 });
 const skeletonRender = () => {
   return (
     <>
       <FlatList
-        contentContainerStyle={{height: 50, alignItems: 'center', gap: 20}}
+        contentContainerStyle={{ height: 50, alignItems: 'center', gap: 20 }}
         horizontal
         data={numberOfSkeleton}
-        renderItem={({item, index}) => {
+        renderItem={({ item, index }) => {
           return <CategorySkeleton key={index} />;
         }}
         keyExtractor={(item, index) => index}
@@ -28,17 +29,17 @@ const skeletonRender = () => {
 };
 const Categories = props => {
   const {
-    onItemPress = () => {},
-    route: {params = {}} = {},
+    onItemPress = () => { },
+    route: { params = {} } = {},
     refreshing,
     showSelected = true,
   } = props || {};
-  const {id} = params || {};
-  const [selectedCategory, setSelectedCategory] = useState({id});
+  const { id } = params || {};
+  const [selectedCategory, setSelectedCategory] = useState({ id });
 
   const flatListRef = useRef(null);
   const [
-    {results: categories} = {},
+    { results: categories } = {},
     categoriesError,
     categoriesLoading,
     getCategories,
@@ -64,8 +65,8 @@ const Categories = props => {
   //   }, [id]),
   // );
 
-  const handleItemPress = ({item}) => {
-    onItemPress({item});
+  const handleItemPress = ({ item }) => {
+    onItemPress({ item });
     setSelectedCategory(item);
   };
 
@@ -93,34 +94,51 @@ const Categories = props => {
 
   return (
     <View
-      style={{...layoutPadding, backgroundColor: palette.background.default}}>
-      <View style={{marginBottom: 10, marginTop: 20}}>
-        <Typography variant="titleMedium">Categories</Typography>
+      style={{ ...layoutPadding, backgroundColor: palette.background.default }}>
+      <View style={{ marginBottom: 10, marginTop: 20 }}>
+        <Typography variant="titleMedium" style={{
+          FontWeight: 600,
+          fontSize: 18,
+          lineHeight: 26,
+          letterSpacing: 0.37
+        }}>Categories</Typography>
       </View>
       {!categoriesError && categoriesLoading && !categories && skeletonRender()}
       {categories && (
         <FlatList
-          contentContainerStyle={{height: 50, alignItems: 'center', gap: 20}}
+          contentContainerStyle={{ height: verticalScale(50), alignItems: 'center', gap: 20 }}
           horizontal
           ref={flatListRef}
           data={categories}
           keyExtractor={(item, index) => item?.id || index}
-          renderItem={({item, index}) => {
+          renderItem={({ item, index }) => {
             const isItemSelected = item.id === selectedCategory.id;
             return (
               <Chip
                 key={index}
                 label={item.name}
-                onPress={() => handleItemPress({item})}
+                onPress={() => handleItemPress({ item })}
                 selected={true}
                 style={{
                   backgroundColor:
                     isItemSelected && showSelected
                       ? palette.background.main
                       : palette.background.offWhite,
+                  borderRadius: 20,
+                  fontWeight: 400,
+                  fontSize: 11,
+                  lineHeight: 18,
+                  letterSpacing: 0.07,
+                  alignItems: 'center'
                 }}
                 selectedColor={palette.background.main}
-                textStyle={{color: palette.text.primary}}
+                textStyle={{
+                  color: palette.text.primary,
+                  fontWeight: 400,
+                  fontSize: 11,
+                  lineHeight: 18,
+                  letterSpacing: 0.07,
+                }}
                 showSelectedCheck={false}
               />
             );

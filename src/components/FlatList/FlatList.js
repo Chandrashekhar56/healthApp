@@ -19,6 +19,7 @@ const FlatList = ({
   error,
   horizontal,
   enableRefresh = true,
+  showsHorizontalScrollIndicator=false,
   ...rest
 }) => {
   const [refreshing, setRefreshing] = useState(false);
@@ -61,6 +62,7 @@ const FlatList = ({
           : {justifyContent: 'center', flex: 1}
       }>
       <RNFlatList
+        showsHorizontalScrollIndicator={showsHorizontalScrollIndicator}
         data={data}
         renderItem={renderItem || defaultRenderItem}
         keyExtractor={keyExtractor}
